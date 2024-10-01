@@ -1,29 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Simple Notification PWA">
+    <meta name="description" content="Приложение для уведомлений и аффирмаций">
     <link rel="manifest" href="manifest.json">
-    <title>Notification Scheduler</title>
+    <title>Wealth Push</title>
 </head>
+
 <body>
-    <h1>Notification Scheduler</h1>
-    <p>Set a time and message to receive a notification.</p>
-    
-    <label for="time">Time (HH:MM): </label>
+    <h1>Wealth Push</h1>
+    <p>Запланируйте уведомления с личными аффирмациями</p>
+
+    <!-- Поля для ввода времени и текста уведомления -->
+    <label for="time">Время (HH:MM): </label>
     <input type="time" id="time" name="time">
-    
-    <label for="message">Notification Text: </label>
-    <input type="text" id="message" placeholder="Enter your message">
-    
-    <button id="setNotification">Set Notification</button>
-    
-    <p id="feedback"></p> <!-- Feedback message -->
-    
-    <h2>Scheduled Notifications:</h2>
-    <ul id="scheduled-list"></ul> <!-- List of scheduled notifications -->
+
+    <label for="message">Текст уведомления: </label>
+    <input type="text" id="message" placeholder="Введите текст вашего уведомления">
+
+    <button id="setNotification">Установить уведомление</button>
+
+    <!-- Отображение успешной установки уведомления -->
+    <p id="feedback"></p>
+
+    <!-- Список запланированных уведомлений -->
+    <h2>Запланированные уведомления:</h2>
+    <ul id="scheduled-list"></ul>
+
+    <!-- Добавляем отслеживание аффирмаций -->
+    <h2>Ваши аффирмации:</h2>
+    <textarea id="affirmations" placeholder="Запишите свои аффирмации здесь"></textarea>
+    <button id="saveAffirmations">Сохранить аффирмации</button>
+    <p id="affirmationFeedback"></p>
 
     <script src="app.js"></script>
 </body>
+
 </html>

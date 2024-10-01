@@ -1,11 +1,11 @@
 {
-    "name": "Notification Scheduler",
-    "short_name": "NotifScheduler",
+    "name": "Wealth Push",
+    "short_name": "Wealth Push",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#3e4eb8",
-    "description": "A simple app to schedule notifications",
+    "description": "Приложение для уведомлений и аффирмаций",
     "icons": [
       {
         "src": "icon.png",

@@ -1,20 +1,37 @@
 // Регистрация service worker для PWA
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js')
+  navigator.serviceWorker.register('sw.js')
     .then(reg => console.log("Service Worker зарегистрирован!", reg))
     .catch(err => console.error("Не удалось зарегистрировать Service Worker:", err));
 }
 
 // Запрос на разрешение уведомлений
-if (Notification.permission !== "granted") {
-  Notification.requestPermission();
+function requestNotificationPermission() {
+  if (Notification.permission !== 'granted') {
+    Notification.requestPermission().then(permission => {
+      if (permission !== 'granted') {
+        alert('Уведомления отключены. Включите их, чтобы получать напоминания.');
+      }
+    });
+  }
 }
 
 // Массив для хранения запланированных уведомлений
 let scheduledNotifications = [];
 
+// Функция для генерации случайного числа в диапазоне
+function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// Функция для генерации текста уведомления
+function generateNotificationMessage() {
+  const randomNumber = getRandomNumber(100, 10000); // Генерация случайного числа
+  return `MIR-3247 Зачисление средств ${randomNumber}р на счёт Накопительный счет *2328. Баланс карты: ${randomNumber * 2}р, баланс счёта: ${randomNumber * 3}р`;
+}
+
 // Функция для планирования уведомлений
-function scheduleNotification(time, message) {
+function scheduleNotification(time) {
   const now = new Date();
   const notificationTime = new Date();
 
@@ -29,10 +46,12 @@ function scheduleNotification(time, message) {
     // Используем setTimeout для планирования уведомления
     setTimeout(() => {
       if (Notification.permission === "granted") {
+        const message = generateNotificationMessage(); // Генерация сообщения
+
         navigator.serviceWorker.ready.then(function (registration) {
           registration.showNotification("Ваше уведомление", {
             body: message,
-            icon: 'icon.png',
+            icon: '/assets/icons/192x192.png', // Иконка уведомления
           });
         });
       }
@@ -41,7 +60,7 @@ function scheduleNotification(time, message) {
     // Добавляем уведомление в список
     scheduledNotifications.push({
       time: notificationTime.toLocaleTimeString(),
-      message: message
+      message: generateNotificationMessage()
     });
 
     // Обновляем сообщение о результате и список уведомлений
@@ -70,38 +89,18 @@ function updateScheduledList() {
   });
 }
 
-// Сохранение аффирмаций пользователя в LocalStorage
-function saveAffirmations() {
-  const affirmations = document.getElementById('affirmations').value;
-  if (affirmations) {
-    localStorage.setItem('affirmations', affirmations);  // Сохраняем в LocalStorage
-    document.getElementById('affirmationFeedback').textContent = "Аффирмации сохранены!";
-  } else {
-    alert('Пожалуйста, введите аффирмации.');
-  }
-}
-
-// Загрузка аффирмаций из LocalStorage при запуске
-function loadAffirmations() {
-  const savedAffirmations = localStorage.getItem('affirmations');
-  if (savedAffirmations) {
-    document.getElementById('affirmations').value = savedAffirmations;
-  }
-}
-
 // Добавление обработчиков событий
 document.getElementById('setNotification').addEventListener('click', function () {
   const time = document.getElementById('time').value;
-  const message = document.getElementById('message').value;
 
-  if (time && message) {
-    scheduleNotification(time, message);
+  if (time) {
+    scheduleNotification(time);
   } else {
-    alert('Пожалуйста, укажите время и текст уведомления.');
+    alert('Пожалуйста, укажите время уведомления.');
   }
 });
 
-document.getElementById('saveAffirmations').addEventListener('click', saveAffirmations);
-
-// Загружаем сохраненные аффирмации при загрузке страницы
-window.onload = loadAffirmations;
+// Запрос на разрешение уведомлений при загрузке страницы
+document.addEventListener('DOMContentLoaded', function () {
+  requestNotificationPermission();
+});

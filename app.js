@@ -19,13 +19,12 @@ function requestNotificationPermission() {
 // Массив для хранения запланированных уведомлений
 let scheduledNotifications = [];
 
-// Установить время по умолчанию на текущее + 1 минута
-function setDefaultTime() {
-  const now = new Date();
-  now.setMinutes(now.getMinutes() + 1);
-  const timeString = now.toTimeString().slice(0, 5);
-  document.getElementById('time').value = timeString;
-}
+// Установка flatpickr для выбора даты и времени
+flatpickr("#datetime-picker", {
+  enableTime: true,
+  dateFormat: "Y-m-d H:i",
+  defaultDate: new Date(new Date().getTime() + 60 * 1000), // Текущее время + 1 минута
+});
 
 // Функция для генерации случайного числа в диапазоне
 function getRandomNumber(min, max) {
@@ -41,11 +40,7 @@ function generateNotificationMessage() {
 // Функция для планирования уведомлений
 function scheduleNotification(time) {
   const now = new Date();
-  const notificationTime = new Date();
-
-  // Установка времени уведомления
-  const [hours, minutes] = time.split(':');
-  notificationTime.setHours(hours, minutes, 0);
+  const notificationTime = new Date(time);
 
   // Расчет задержки для уведомления
   const delay = notificationTime - now;
@@ -99,17 +94,16 @@ function updateScheduledList() {
 
 // Добавление обработчиков событий
 document.getElementById('setNotification').addEventListener('click', function () {
-  const time = document.getElementById('time').value;
+  const time = document.getElementById('datetime-picker').value;
 
   if (time) {
     scheduleNotification(time);
   } else {
-    alert('Пожалуйста, укажите время уведомления.');
+    alert('Пожалуйста, выберите дату и время уведомления.');
   }
 });
 
-// Запрос на разрешение уведомлений при загрузке страницы и установка времени по умолчанию
+// Запрос на разрешение уведомлений при загрузке страницы
 document.addEventListener('DOMContentLoaded', function () {
   requestNotificationPermission();
-  setDefaultTime();
 });

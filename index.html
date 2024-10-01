@@ -6,7 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wealth Push - Notification Scheduler</title>
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/minimal.css/1.0.0/minimal.min.css">
+
+    <!-- Подключаем стили flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <!-- Подключаем кастомные стили -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -51,8 +55,8 @@
     <h1>Wealth Push</h1>
 
     <div class="form-group">
-        <label for="time">Время уведомления:</label>
-        <input type="time" id="time" required>
+        <label for="datetime-picker">Выберите дату и время уведомления:</label>
+        <input id="datetime-picker" type="text" placeholder="Выберите дату и время" required>
     </div>
 
     <button id="setNotification">Запланировать уведомление</button>
@@ -62,6 +66,8 @@
 
     <p id="feedback"></p>
 
+    <!-- Подключаем скрипты flatpickr -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="app.js"></script>
 </body>
 

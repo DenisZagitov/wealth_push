@@ -10,6 +10,9 @@ if (Notification.permission !== "granted") {
   Notification.requestPermission();
 }
 
+// Array to store scheduled notifications
+let scheduledNotifications = [];
+
 // Function to schedule the notification
 function scheduleNotification(time, message) {
   const now = new Date();
@@ -34,9 +37,37 @@ function scheduleNotification(time, message) {
               });
           }
       }, delay);
+
+      // Add to the list of scheduled notifications
+      scheduledNotifications.push({
+          time: notificationTime.toLocaleTimeString(),
+          message: message
+      });
+
+      // Update the feedback and list display
+      displayFeedback(`Notification scheduled for ${notificationTime.toLocaleTimeString()}`);
+      updateScheduledList();
   } else {
       alert('Please set a time in the future.');
   }
+}
+
+// Function to display feedback when a notification is scheduled
+function displayFeedback(text) {
+  const feedback = document.getElementById('feedback');
+  feedback.textContent = text;
+}
+
+// Function to update the list of scheduled notifications
+function updateScheduledList() {
+  const scheduledList = document.getElementById('scheduled-list');
+  scheduledList.innerHTML = '';  // Clear current list
+
+  scheduledNotifications.forEach(notification => {
+      const listItem = document.createElement('li');
+      listItem.textContent = `${notification.time} - ${notification.message}`;
+      scheduledList.appendChild(listItem);
+  });
 }
 
 // Add event listener to the button to set the notification

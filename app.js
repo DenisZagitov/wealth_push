@@ -19,6 +19,14 @@ function requestNotificationPermission() {
 // Массив для хранения запланированных уведомлений
 let scheduledNotifications = [];
 
+// Установить время по умолчанию на текущее + 1 минута
+function setDefaultTime() {
+  const now = new Date();
+  now.setMinutes(now.getMinutes() + 1);
+  const timeString = now.toTimeString().slice(0, 5);
+  document.getElementById('time').value = timeString;
+}
+
 // Функция для генерации случайного числа в диапазоне
 function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -100,7 +108,8 @@ document.getElementById('setNotification').addEventListener('click', function ()
   }
 });
 
-// Запрос на разрешение уведомлений при загрузке страницы
+// Запрос на разрешение уведомлений при загрузке страницы и установка времени по умолчанию
 document.addEventListener('DOMContentLoaded', function () {
   requestNotificationPermission();
+  setDefaultTime();
 });

@@ -4,21 +4,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wealth Push - Simple PWA</title>
+    <title>Wealth Push - Notification Scheduler</title>
     <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/minimal.css/1.0.0/minimal.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        h1 {
+            color: #E1477E;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        input[type="time"],
+        button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        #scheduled-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #scheduled-list li {
+            background-color: #fff;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Schedule a Notification</h1>
+    <h1>Wealth Push</h1>
 
-    <!-- Time and message input for scheduling notifications -->
-    <label for="time">Time (HH:MM):</label>
-    <input type="time" id="time">
+    <div class="form-group">
+        <label for="time">Время уведомления:</label>
+        <input type="time" id="time" required>
+    </div>
 
-    <label for="message">Notification Text:</label>
-    <input type="text" id="message" placeholder="Enter your notification text">
+    <button id="setNotification">Запланировать уведомление</button>
 
-    <button id="setNotification">Set Notification</button>
+    <h2>Запланированные уведомления:</h2>
+    <ul id="scheduled-list"></ul>
+
+    <p id="feedback"></p>
 
     <script src="app.js"></script>
 </body>
